@@ -1,4 +1,7 @@
 class Username < ApplicationRecord
+    has_many :userscores
+    has_many :scores, through: :userscores
+
     has_secure_password
     validates :name, 
         presence: true,
