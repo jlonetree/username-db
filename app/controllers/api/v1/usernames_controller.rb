@@ -1,11 +1,12 @@
 class Api::V1::UsernamesController < ApplicationController
   before_action :set_username, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token
 
   # GET /usernames
   def index
     @usernames = Username.all
 
-    render json: @usernames, include: [ userscores: [ include: :scores ] ]
+    render json: @usernames
   end
 
   # GET /usernames/1
@@ -13,17 +14,17 @@ class Api::V1::UsernamesController < ApplicationController
   def show
     @username
 
-    render json: @username, include: [ userscore: [ include: :score ] ]
+    render json: @username
   end
 
   # POST /usernames
   def create
-    @username = Username.new(username_params)
+    @username = Username.create(username_params)
 
-    if @username.save
-      render json: @username, status: :created, location: @username
+    if @username.valid?
+      render json: @username
     else
-      render json: @username.errors, status: :unprocessable_entity
+      render json: @username.errors
     end
 
   end
@@ -52,6 +53,6 @@ class Api::V1::UsernamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def username_params
-      params.require(:username).permit(:name, :password, :email)
+      params.require(:username).permit(:name, :password_digest, :email)
     end
 end

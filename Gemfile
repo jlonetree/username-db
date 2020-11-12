@@ -7,6 +7,9 @@ ruby '2.7.0'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3', '~> 1.4'
+
+# Enable rack-cors for communicating with fetch requests client side
+gem 'rack-cors'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use Puma as the app server
@@ -58,3 +61,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "jwt", "~> 2.2"
