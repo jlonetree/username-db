@@ -1,6 +1,6 @@
 class Api::V1::UsernamesController < ApplicationController
+  skip_before_action :authorized, only: [:index, :create]
   before_action :set_username, only: [:show, :edit, :update, :destroy]
-  skip_before_action :verify_authenticity_token
 
   # GET /usernames
   def index
@@ -22,9 +22,10 @@ class Api::V1::UsernamesController < ApplicationController
     @username = Username.create(username_params)
 
     if @username.valid?
-      render json: @username
+      @token = encode_token({ username_id: @username.id })
+      render json: { username: UsernameSerializer.new(@username), jwt: @token }, status: :created
     else
-      render json: @username.errors
+      render json: { error: 'failed to create user' }, status: :not_acceptable
     end
 
   end

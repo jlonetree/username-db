@@ -5,7 +5,8 @@ class Username < ApplicationRecord
   has_secure_password
   validates :name,
             presence: true,
-            length: { minimum: 3 }
+            length: { minimum: 3 },
+            uniqueness: { case_sensitive: false }
   validates :password_digest,
             presence: true,
             length: { in: 6..20 }
